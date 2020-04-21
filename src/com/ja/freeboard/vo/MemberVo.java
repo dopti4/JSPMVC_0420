@@ -2,7 +2,7 @@ package com.ja.freeboard.vo;
 
 import java.util.Date;
 
-//VO : 데이터 묶음의 형태
+//VO = DTO : 데이터 묶음의 형태(데이터 타입 정의)
 public class MemberVo {
 	
 	private int m_no;

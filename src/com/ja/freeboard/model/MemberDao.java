@@ -3,6 +3,8 @@ package com.ja.freeboard.model;
 import java.sql.*;
 import java.util.*;
 
+import com.ja.freeboard.vo.*;
+
 //DAO객체 : 테이블당 하나씩 생성하는게 정석
 
 public class MemberDao {
@@ -37,7 +39,7 @@ public class MemberDao {
 			pstm.setString(3, m_nick);
 			pstm.setString(4, m_phone);
 			
-			pstm.executeUpdate();					//insert니까 update
+			pstm.executeUpdate();					//insert니까 executeUpdate
 					
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -59,7 +61,146 @@ public class MemberDao {
 				}
 			}
 		}
+	}
+	
+	public MemberVo selectByIdAndPw(String id, String pw) {		//이름 정확히하자. 직관적으로, 일관성있게
+		
+		MemberVo memberVo = null;	//이름 짓기 귀찮을 때 그냥 클래스명 앞에 소문자로..
+		
+		String query = "SELECT * FROM FB_Member WHERE m_id = ? AND m_pw = ?";	//값에만 ? 들어갈 수 있다!
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;		//select니까 ResultSet 필요하다.
+		
+		try {
+			
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setString(1, id);	//?에 들어갈 값이 숫자면 setInt
+			pstm.setString(2, pw);
+			
+			rs = pstm.executeQuery();			//select니까 executeQuery!
+			
+			//로직 - 리턴만 해주고 핸들러에서 처리
+			if(rs.next()) {
+				
+				int m_no = rs.getInt("m_no");
+				String m_id = rs.getString("m_id");
+				String m_pw = rs.getString("m_pw");
+				String m_nick = rs.getString("m_nick");
+				String m_phone = rs.getString("m_phone");
+				java.util.Date m_joindate = rs.getDate("m_joindate");	//util, sql 둘 다 임포트 했기 때문에 어떤거 쓸건지 정해줘야함.
+				
+				memberVo = new MemberVo(m_no, m_id, m_pw, m_nick, m_phone, m_joindate);
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(pstm != null) {
+				try {
+					pstm.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(conn != null) {
+				try {
+					conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return memberVo;
 		
 	}
+	
+	public MemberVo selectByNo(int no) {
+		
+		MemberVo memberVo = null;
+		
+		String query = "SELECT * FROM FB_Member WHERE m_no = ?";	//값에만 ? 들어갈 수 있다!
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;		//select니까 ResultSet 필요하다.
+		
+		try {
+			
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setInt(1, no);	//?에 들어갈 값이 숫자면 setInt
+			
+			rs = pstm.executeQuery();			//select니까 executeQuery!
+			
+			//로직 - 리턴만 해주고 핸들러에서 처리
+			if(rs.next()) {
+				
+				int m_no = rs.getInt("m_no");
+				String m_id = rs.getString("m_id");
+				String m_pw = rs.getString("m_pw");
+				String m_nick = rs.getString("m_nick");
+				String m_phone = rs.getString("m_phone");
+				java.util.Date m_joindate = rs.getDate("m_joindate");	//util, sql 둘 다 임포트 했기 때문에 어떤거 쓸건지 정해줘야함.
+				
+				memberVo = new MemberVo(m_no, m_id, m_pw, m_nick, m_phone, m_joindate);
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(pstm != null) {
+				try {
+					pstm.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(conn != null) {
+				try {
+					conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		return memberVo;
+		
+	}
+	
 	
 }

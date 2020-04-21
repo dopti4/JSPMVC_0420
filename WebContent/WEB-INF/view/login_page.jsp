@@ -15,7 +15,7 @@
 <body>
 
 	<h1>로그인</h1>
-	<form action="./Login_process.do" method="post">	<!-- .jsp 안쓸거야 항상 ~~.do -->
+	<form action="./login_process.do" method="post">	<!-- .jsp 안쓸거야 항상 ~~.do -->
 		ID : <input type="text" name="m_id"><br>
 		PW : <input type="password" name="m_pw"><br>
 		<input type="submit" value="로그인"><br>
