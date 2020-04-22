@@ -18,17 +18,17 @@ public class MainPageHandler implements CommandHandler {
 		
 		ArrayList<BoardVo> boardList = new BoardDao().selectAll();		//바로 실행
 		
-		MemberDao memberDao = new MemberDao();
+		MemberDao memberDao = new MemberDao();		//밑에서 쓸라고 생성
 		
 		for(BoardVo boardVo : boardList) {		//배열에서 하나씩 뽑아서 넣어준다.
 			
-			MemberVo memberVo = memberDao.selectByNo(boardVo.getM_no());
+			MemberVo memberVo = memberDao.selectByNo(boardVo.getM_no());		//닉네임 가져오기 위해서.
 			
 			//담을 객체 생성해주고 - ContentDataVo = board + member
 			
-			ContentDataVo contentDataVo = new ContentDataVo(memberVo, boardVo);
+			ContentDataVo contentDataVo = new ContentDataVo(memberVo, boardVo);	//사실상 조인이 필요하기때문에 둘을 엮을려고.
 			
-			contentList.add(contentDataVo);		//합친 거 추가!
+			contentList.add(contentDataVo);		//합친 거 싹 다 추가!
 			
 		}
 		

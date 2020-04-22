@@ -154,7 +154,7 @@ public class MemberDao {
 			rs = pstm.executeQuery();			//select니까 executeQuery!
 			
 			//로직 - 리턴만 해주고 핸들러에서 처리
-			if(rs.next()) {
+			if(rs.next()) {				//PK니까 어차피 한개만 나옴 -> while 안씀.
 				
 				int m_no = rs.getInt("m_no");
 				String m_id = rs.getString("m_id");

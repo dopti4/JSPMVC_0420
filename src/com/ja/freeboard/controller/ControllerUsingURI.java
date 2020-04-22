@@ -39,12 +39,12 @@ public class ControllerUsingURI extends HttpServlet {
 		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		System.out.println("넘어온 명령어 : " + request.getRequestURI());
+		//System.out.println("넘어온 명령어 : " + request.getRequestURI());
 		
 		//어떤 명령어가 들어왔는지 확인
 		String command = request.getRequestURI();
 		//컨텍스트명이 가변적이기 때문에 이렇게 자르자! substring 리턴값 int니까 .length 붙이고
-		command = command.substring(request.getContextPath().length());
+		command = command.substring(request.getContextPath().length());	//프로젝트명 다음부터 시작하게끔 짜른다.
 		System.out.println(command);
 		System.out.println();
 		
@@ -55,14 +55,14 @@ public class ControllerUsingURI extends HttpServlet {
 //			
 //		}
 		
-		//명령어 호출된 값(ex.로그인) 가져온다.
+		//명령어 호출된 값(ex.로그인페이지 등) 가져온다.
 		CommandHandler handler = commandFactory.getCommandHandler(command);
 		//가져온 핸들러의 프로세스 실행.
 		//url에 지 맘대로 입력하면 handler에 null값 입력되므로 널포인터익셉션 발생할 수 있다. 예외처리 해주자!
 		String view = null;
 		
 		if(handler != null) {
-			view = handler.process(request, response);
+			view = handler.process(request, response);		//다형성에 의해 상속받은 각 핸들러의 프로세스를 실행.
 		}else {
 			System.out.println("[경고] 명령어에 매핑된 객체가 없습니다.");
 		}
